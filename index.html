@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLAWD - KI-gestützte Dienstleistungen</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+        }
+
+        body {
+            font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Organic Background Elements */
+        .organic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .organic-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 200px;
+            height: 200px;
+            top: 70%;
+            right: 15%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+            animation-delay: -5s;
+        }
+
+        .shape-3 {
+            width: 150px;
+            height: 150px;
+            bottom: 20%;
+            left: 20%;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.1) 0%, transparent 70%);
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Modern Header with Anti-Grid Layout */
+        header {
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease-in-out infinite alternate;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section with Kinetic Typography */
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            padding: 4rem 5%;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+
+        .kinetic-text {
+            display: inline-block;
+            animation: bounce 2s ease-in-out infinite alternate;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #64748b;
+            max-width: 600px;
+            margin: 1rem auto 2rem;
+        }
+
+        .cta-button {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Services Section with Organic Cards */
+        .services {
+            padding: 6rem 5%;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(99, 102, 241, 0.2);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 6rem 5%;
+            background: linear-gradient(135deg, #f0f9ff, #fdf2f8);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .pricing-card.popular {
+            transform: scale(1.05);
+            border: 2px solid var(--primary);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: var(--accent);
+            color: white;
+            padding: 0.5rem 2rem;
+            transform: rotate(45deg);
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .pricing-header {
+            margin-bottom: 2rem;
+        }
+
+        .pricing-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-period {
+            color: #64748b;
+            font-size: 1rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f1f5f9;
+            color: #334155;
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features li i {
+            color: var(--primary);
+            margin-right: 0.5rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 6rem 5%;
+            background: white;
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .contact-details h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+            color: var(--dark);
+        }
+
+        .contact-form {
+            background: #f8fafc;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Features Section with Anti-Grid Layout */
+        .features {
+            padding: 6rem 5%;
+            background: linear-gradient(135deg, #f0f9ff, #fdf2f8);
+            position: relative;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .feature-image {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .features-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .feature-item {
+            padding: 1.5rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-item h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        /* Animations */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        @keyframes bounce {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-10px); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .features-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            nav ul {
+                display: none;
+            }
+            
+            .hero {
+                min-height: 70vh;
+            }
+            
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-card.popular {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Organic Background Elements -->
+    <div class="organic-bg">
+        <div class="organic-shape shape-1"></div>
+        <div class="organic-shape shape-2"></div>
+        <div class="organic-shape shape-3"></div>
+    </div>
+
+    <header>
+        <div class="logo">🤖 CLAWD</div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#pricing">Preise</a></li>
+                <li><a href="#contact">Kontakt</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div>
+            <h1>Willkommen bei <span class="kinetic-text">CLAWD</span></h1>
+            <p>KI-gestützte Dienstleistungen für die Zukunft. Wir kombinieren fortschrittliche Technologie mit maßgeschneiderten Lösungen für Ihr Unternehmen.</p>
+            <a href="#contact" class="cta-button">Jetzt Kontakt aufnehmen</a>
+            <a href="#services" class="cta-button" style="background: white; color: var(--primary);">Mehr erfahren</a>
+        </div>
+    </section>
+
+    <section class="services" id="services">
+        <h2 class="section-title">Unsere Dienstleistungen</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h3>KI-Entwicklung</h3>
+                <p>Maßgeschneiderte KI-Lösungen für Ihre spezifischen Geschäftsbedürfnisse. Von Chatbots bis hin zu komplexen Analysetools.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <h3>Crypto-Integration</h3>
+                <p>Blockchain-Lösungen und Kryptowährungsintegration für moderne Geschäftsmodelle. Wallet-Management und Token-Handling.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Automatisierte Handelslösungen</h3>
+                <p>Algorithmische Handelsstrategien und Paper-Trading-Bots für den Kryptomarkt mit fortschrittlichen Analysetools.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing" id="pricing">
+        <h2 class="section-title">Unsere Preise</h2>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3 class="pricing-name">Basic</h3>
+                    <div class="pricing-price">€299<span class="pricing-period">/Monat</span></div>
+                </div>
+                <ul class="pricing-features">
+                    <li><i class="fas fa-check"></i> Grundlegende KI-Entwicklung</li>
+                    <li><i class="fas fa-check"></i> Bis zu 10.000 API-Aufrufe</li>
+                    <li><i class="fas fa-check"></i> E-Mail Support</li>
+                    <li><i class="fas fa-check"></i> Standard Sicherheitsfunktionen</li>
+                    <li><i class="fas fa-times"></i> Krypto-Integration</li>
+                    <li><i class="fas fa-times"></i> 24/7 Support</li>
+                </ul>
+                <a href="#contact" class="cta-button" style="background: var(--primary); color: white;">Bestellen</a>
+            </div>
+            <div class="pricing-card popular">
+                <div class="popular-badge">POPULÄR</div>
+                <div class="pricing-header">
+                    <h3 class="pricing-name">Professional</h3>
+                    <div class="pricing-price">€799<span class="pricing-period">/Monat</span></div>
+                </div>
+                <ul class="pricing-features">
+                    <li><i class="fas fa-check"></i> Vollständige KI-Entwicklung</li>
+                    <li><i class="fas fa-check"></i> Bis zu 100.000 API-Aufrufe</li>
+                    <li><i class="fas fa-check"></i> Priorisierter Support</li>
+                    <li><i class="fas fa-check"></i> Erweiterte Sicherheitsfunktionen</li>
+                    <li><i class="fas fa-check"></i> Crypto-Integration</li>
+                    <li><i class="fas fa-check"></i> Handelslösungen</li>
+                    <li><i class="fas fa-times"></i> Individuelle Entwicklung</li>
+                </ul>
+                <a href="#contact" class="cta-button" style="background: var(--primary); color: white;">Bestellen</a>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3 class="pricing-name">Enterprise</h3>
+                    <div class="pricing-price">€1.999<span class="pricing-period">/Monat</span></div>
+                </div>
+                <ul class="pricing-features">
+                    <li><i class="fas fa-check"></i> Vollständige KI-Entwicklung</li>
+                    <li><i class="fas fa-check"></i> Unlimited API-Aufrufe</li>
+                    <li><i class="fas fa-check"></i> 24/7 Premium Support</li>
+                    <li><i class="fas fa-check"></i> Maximale Sicherheitsfunktionen</li>
+                    <li><i class="fas fa-check"></i> Vollständige Crypto-Integration</li>
+                    <li><i class="fas fa-check"></i> Individuelle Handelslösungen</li>
+                    <li><i class="fas fa-check"></i> Dedizierter Manager</li>
+                    <li><i class="fas fa-check"></i> Custom Development</li>
+                </ul>
+                <a href="#contact" class="cta-button" style="background: var(--primary); color: white;">Bestellen</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="features-container">
+            <div class="feature-image">
+                <img src="https://images.unsplash.com/photo-1677442135722-5f11f0a947fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="KI-Technologie">
+            </div>
+            <div class="features-list">
+                <div class="feature-item">
+                    <h4>🚀 Schnelle Implementierung</h4>
+                    <p>Unsere Lösungen sind in wenigen Stunden einsatzbereit und skalierbar für Ihr Wachstum.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🔒 Sicherheit & Datenschutz</h4>
+                    <p>Enterprise-Level-Sicherheit mit Ende-zu-Ende-Verschlüsselung für alle Transaktionen.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🤖 Intelligente Automatisierung</h4>
+                    <p>KI-gesteuerte Prozesse reduzieren manuellen Aufwand und erhöhen Effizienz.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>📈 Kontinuierliches Monitoring</h4>
+                    <p>Echtzeit-Analyse und Berichterstattung für fundierte Geschäftsentscheidungen.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <div class="contact-container">
+            <div class="contact-info">
+                <h2 class="section-title" style="text-align: left; font-size: 2rem;">Kontakt</h2>
+                <p>Gerne beraten wir Sie persönlich und erstellen ein individuelles Angebot für Ihre Anforderungen.</p>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h3>E-Mail</h3>
+                        <p>info@clawd.ai</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h3>Telefon</h3>
+                        <p>+49 XXX XXX XXXX</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h3>Standort</h3>
+                        <p>Berlin, Deutschland</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h3>Öffnungszeiten</h3>
+                        <p>Mo-Fr: 9:00 - 18:00 Uhr</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-form">
+                <h3 style="font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--dark);">Schreiben Sie uns</h3>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Name *</label>
+                        <input type="text" id="name" name="name" required placeholder="Ihr vollständiger Name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">E-Mail *</label>
+                        <input type="email" id="email" name="email" required placeholder="ihre.email@beispiel.de">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Telefon</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+49 123 456789">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="service">Interessierte Dienstleistung</label>
+                        <select id="service" name="service">
+                            <option value="">Bitte auswählen</option>
+                            <option value="ki-development">KI-Entwicklung</option>
+                            <option value="crypto-integration">Crypto-Integration</option>
+                            <option value="trading-solutions">Handelslösungen</option>
+                            <option value="consulting">Beratung</option>
+                            <option value="other">Sonstiges</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="budget">Budgetvorstellung (optional)</label>
+                        <select id="budget" name="budget">
+                            <option value="">Keine Angabe</option>
+                            <option value="under-500">Unter €500/Monat</option>
+                            <option value="500-1000">€500 - €1.000/Monat</option>
+                            <option value="1000-2500">€1.000 - €2.500/Monat</option>
+                            <option value="2500-5000">€2.500 - €5.000/Monat</option>
+                            <option value="over-5000">Über €5.000/Monat</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Nachricht *</label>
+                        <textarea id="message" name="message" required placeholder="Beschreiben Sie Ihre Anforderungen..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="cta-button" style="width: 100%;">Nachricht senden</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <div>
+                <h3>🤖 CLAWD</h3>
+                <p>Ihr Partner für KI-gestützte Dienstleistungen der Zukunft.</p>
+            </div>
+            <div>
+                <h4>Dienstleistungen</h4>
+                <p>• KI-Entwicklung</p>
+                <p>• Crypto-Integration</p>
+                <p>• Automatisierte Handelslösungen</p>
+            </div>
+            <div>
+                <h4>Rechtliches</h4>
+                <p><a href="#" style="color: white;">Datenschutz</a></p>
+                <p><a href="#" style="color: white;">Impressum</a></p>
+                <p><a href="#" style="color: white;">AGB</a></p>
+            </div>
+        </div>
+        <p style="margin-top: 2rem;">© 2026 CLAWD - Alle Rechte vorbehalten</p>
+    </footer>
+
+    <script>
+        // Interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.service-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-10px)';
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0px)';
+                });
+            });
+
+            // Smooth scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            // Form submission
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form data
+                const formData = new FormData(this);
+                const data = Object.fromEntries(formData);
+                
+                // Show success message
+                alert('Vielen Dank für Ihre Nachricht! Wir werden uns in Kürze bei Ihnen melden.');
+                
+                // Reset form
+                this.reset();
+            });
+        });
+    </script>
+</body>
+</html>
